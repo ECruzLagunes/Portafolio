@@ -1,0 +1,69 @@
+﻿<Window x:Class="ElevatorControl.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Simulador de Elevador" Height="500" Width="450">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Top">
+            <TextBlock Text="Estado de puertas" FontWeight="Bold" Margin="0,0,0,10"/>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Piso 5:" Width="50"/>
+                <Ellipse x:Name="Status5" Width="16" Height="16"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Piso 4:" Width="50"/>
+                <Ellipse x:Name="Status4" Width="16" Height="16"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Piso 3:" Width="50"/>
+                <Ellipse x:Name="Status3" Width="16" Height="16"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Piso 2:" Width="50"/>
+                <Ellipse x:Name="Status2" Width="16" Height="16"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,2">
+                <TextBlock Text="Piso 1:" Width="50"/>
+                <Ellipse x:Name="Status1" Width="16" Height="16"/>
+            </StackPanel>
+        </StackPanel>
+
+        <Canvas Grid.Column="1" x:Name="ElevatorCanvas" Background="#EEE" Height="300" VerticalAlignment="Top" Width="200">
+            <Line X1="0" Y1="0"   X2="200" Y2="0"   Stroke="Black" StrokeThickness="1"/>
+            <Line X1="0" Y1="60"  X2="200" Y2="60"  Stroke="Black" StrokeThickness="1"/>
+            <Line X1="0" Y1="120" X2="200" Y2="120" Stroke="Black" StrokeThickness="1"/>
+            <Line X1="0" Y1="180" X2="200" Y2="180" Stroke="Black" StrokeThickness="1"/>
+            <Line X1="0" Y1="240" X2="200" Y2="240" Stroke="Black" StrokeThickness="1"/>
+            <Line X1="0" Y1="300" X2="200" Y2="300" Stroke="Black" StrokeThickness="1"/>
+
+            <Rectangle x:Name="ElevatorBox" Width="80" Height="50" Fill="LightGray" Canvas.Left="60" Canvas.Top="250" />
+            <Rectangle x:Name="DoorLeft" Width="40" Height="50" Fill="DarkGray" Canvas.Left="60" Canvas.Top="250" />
+            <Rectangle x:Name="DoorRight" Width="40" Height="50" Fill="DarkGray" Canvas.Left="100" Canvas.Top="250" />
+
+            <Button Content="▼" Tag="5" Width="20" Height="20" Canvas.Left="10" Canvas.Top="0" Click="CallButton_Click"/>
+            <Button Content="▲" Tag="4" Width="20" Height="20" Canvas.Left="10" Canvas.Top="60" Click="CallButton_Click"/>
+            <Button Content="▼" Tag="4" Width="20" Height="20" Canvas.Left="40" Canvas.Top="60" Click="CallButton_Click"/>
+            <Button Content="▲" Tag="3" Width="20" Height="20" Canvas.Left="10" Canvas.Top="120" Click="CallButton_Click"/>
+            <Button Content="▼" Tag="3" Width="20" Height="20" Canvas.Left="40" Canvas.Top="120" Click="CallButton_Click"/>
+            <Button Content="▲" Tag="2" Width="20" Height="20" Canvas.Left="10" Canvas.Top="180" Click="CallButton_Click"/>
+            <Button Content="▼" Tag="2" Width="20" Height="20" Canvas.Left="40" Canvas.Top="180" Click="CallButton_Click"/>
+            <Button Content="▲" Tag="1" Width="20" Height="20" Canvas.Left="10" Canvas.Top="250" Click="CallButton_Click"/>
+        </Canvas>
+
+        <StackPanel Grid.Column="2" Margin="10" VerticalAlignment="Top">
+            <TextBlock Text="Dentro del elevador" FontWeight="Bold" Margin="0,0,0,10"/>
+            <UniformGrid Columns="1" Rows="5">
+                <Button Content="Piso 5" Tag="5" Click="InternalButton_Click"/>
+                <Button Content="Piso 4" Tag="4" Click="InternalButton_Click"/>
+                <Button Content="Piso 3" Tag="3" Click="InternalButton_Click"/>
+                <Button Content="Piso 2" Tag="2" Click="InternalButton_Click"/>
+                <Button Content="Piso 1" Tag="1" Click="InternalButton_Click"/>
+            </UniformGrid>
+        </StackPanel>
+    </Grid>
+</Window>
