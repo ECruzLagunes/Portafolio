@@ -10,6 +10,7 @@ namespace ElevatorControl.IoC
         public static IServiceCollection AddElevatorDependencies(this IServiceCollection services)
         {
             services.AddSingleton<IElevatorService, ElevatorService>();
+            services.AddSingleton<ElevatorController>();
             return services;
         }
     }
