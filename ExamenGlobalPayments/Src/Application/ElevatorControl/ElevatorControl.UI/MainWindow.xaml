@@ -12,38 +12,38 @@
         <StackPanel Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Top">
             <TextBlock Text="Estado de puertas" FontWeight="Bold" Margin="0,0,0,10"/>
             <StackPanel Orientation="Horizontal" Margin="0,2">
-                <TextBlock Text="Piso 5:" Width="50"/>
                 <Ellipse x:Name="Status5" Width="16" Height="16"/>
+                <TextBlock Text="Piso 5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,2">
-                <TextBlock Text="Piso 4:" Width="50"/>
                 <Ellipse x:Name="Status4" Width="16" Height="16"/>
+                <TextBlock Text="Piso 4"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,2">
-                <TextBlock Text="Piso 3:" Width="50"/>
                 <Ellipse x:Name="Status3" Width="16" Height="16"/>
+                <TextBlock Text="Piso 3"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,2">
-                <TextBlock Text="Piso 2:" Width="50"/>
                 <Ellipse x:Name="Status2" Width="16" Height="16"/>
+                <TextBlock Text="Piso 2"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,2">
-                <TextBlock Text="Piso 1:" Width="50"/>
                 <Ellipse x:Name="Status1" Width="16" Height="16"/>
+                <TextBlock Text="Piso 1"/>
             </StackPanel>
         </StackPanel>
 
-        <Canvas Grid.Column="1" x:Name="ElevatorCanvas" Background="#EEE" Height="300" VerticalAlignment="Top" Width="200">
-            <Line X1="0" Y1="0"   X2="200" Y2="0"   Stroke="Black" StrokeThickness="1"/>
-            <Line X1="0" Y1="60"  X2="200" Y2="60"  Stroke="Black" StrokeThickness="1"/>
-            <Line X1="0" Y1="120" X2="200" Y2="120" Stroke="Black" StrokeThickness="1"/>
-            <Line X1="0" Y1="180" X2="200" Y2="180" Stroke="Black" StrokeThickness="1"/>
-            <Line X1="0" Y1="240" X2="200" Y2="240" Stroke="Black" StrokeThickness="1"/>
-            <Line X1="0" Y1="300" X2="200" Y2="300" Stroke="Black" StrokeThickness="1"/>
+        <Canvas Grid.Column="1" x:Name="ElevatorCanvas" Background="#EEE" Height="300" Width="200">
+            <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black"/>
+            <Line X1="0" Y1="60" X2="200" Y2="60" Stroke="Black"/>
+            <Line X1="0" Y1="120" X2="200" Y2="120" Stroke="Black"/>
+            <Line X1="0" Y1="180" X2="200" Y2="180" Stroke="Black"/>
+            <Line X1="0" Y1="240" X2="200" Y2="240" Stroke="Black"/>
+            <Line X1="0" Y1="300" X2="200" Y2="300" Stroke="Black"/>
 
-            <Rectangle x:Name="ElevatorBox" Width="80" Height="50" Fill="LightGray" Canvas.Left="60" Canvas.Top="250" />
-            <Rectangle x:Name="DoorLeft" Width="40" Height="50" Fill="DarkGray" Canvas.Left="60" Canvas.Top="250" />
-            <Rectangle x:Name="DoorRight" Width="40" Height="50" Fill="DarkGray" Canvas.Left="100" Canvas.Top="250" />
+            <Rectangle x:Name="ElevatorBox" Width="80" Height="50" Fill="LightGray" Canvas.Left="60" Canvas.Top="250"/>
+            <Rectangle x:Name="DoorLeft" Width="40" Height="50" Fill="DarkGray" Canvas.Left="60" Canvas.Top="250"/>
+            <Rectangle x:Name="DoorRight" Width="40" Height="50" Fill="DarkGray" Canvas.Left="100" Canvas.Top="250"/>
 
             <Button Content="▼" Tag="5" Width="20" Height="20" Canvas.Left="10" Canvas.Top="0" Click="CallButton_Click"/>
             <Button Content="▲" Tag="4" Width="20" Height="20" Canvas.Left="10" Canvas.Top="60" Click="CallButton_Click"/>
