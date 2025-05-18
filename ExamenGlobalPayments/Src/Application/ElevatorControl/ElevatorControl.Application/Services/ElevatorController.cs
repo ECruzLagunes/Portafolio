@@ -34,18 +34,25 @@ namespace ElevatorControl.Application.Services
         /// </param>
         public void RequestFloor(int floor)
         {
-            if (!_processing && floor == CurrentFloor)
+            try
             {
-                _ = OperateDoorsAsync(true);
-                return;
-            }
-            if (floor > CurrentFloor) _upRequests.Add(floor);
-            else if (floor < CurrentFloor) _downRequests.Add(floor);
-            else if (_direction >= 0) _upRequests.Add(floor);
-            else _downRequests.Add(floor);
+                if (!_processing && floor == CurrentFloor)
+                {
+                    _ = OperateDoorsAsync(true);
+                    return;
+                }
+                if (floor > CurrentFloor) _upRequests.Add(floor);
+                else if (floor < CurrentFloor) _downRequests.Add(floor);
+                else if (_direction >= 0) _upRequests.Add(floor);
+                else _downRequests.Add(floor);
 
-            if (!_processing)
-                _ = ProcessRequestsAsync();
+                if (!_processing)
+                    _ = ProcessRequestsAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error al solicitar piso", ex);
+            }
         }
 
         /// <summary>
@@ -54,22 +61,29 @@ namespace ElevatorControl.Application.Services
         /// </summary>
         private async Task ProcessRequestsAsync()
         {
-            _processing = true;
-            if (_direction == 0)
-                _direction = _upRequests.Any() ? 1 : (_downRequests.Any() ? -1 : 0);
-
-            while (_upRequests.Any() || _downRequests.Any())
+            try
             {
-                if (_direction == 1 && _upRequests.Any())
-                    await MoveStepwiseAsync(1);
-                else if (_direction == -1 && _downRequests.Any())
-                    await MoveStepwiseAsync(-1);
-                else
-                    _direction = -_direction;
-            }
+                _processing = true;
+                if (_direction == 0)
+                    _direction = _upRequests.Any() ? 1 : (_downRequests.Any() ? -1 : 0);
 
-            _direction = 0;
-            _processing = false;
+                while (_upRequests.Any() || _downRequests.Any())
+                {
+                    if (_direction == 1 && _upRequests.Any())
+                        await MoveStepwiseAsync(1);
+                    else if (_direction == -1 && _downRequests.Any())
+                        await MoveStepwiseAsync(-1);
+                    else
+                        _direction = -_direction;
+                }
+
+                _direction = 0;
+                _processing = false;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error al procesar solicitudes del elevador", ex);
+            }
         }
 
         /// <summary>
@@ -86,32 +100,40 @@ namespace ElevatorControl.Application.Services
         /// </param>
         private async Task MoveStepwiseAsync(int dir)
         {
-            while (true)
+            try
             {
-                int next = CurrentFloor + dir;
-                bool has = dir == 1
-                    ? _upRequests.Any(r => r >= next)
-                    : _downRequests.Any(r => r <= next);
-                if (!has) break;
-
-                if (DoorsOpen)
-                    await OperateDoorsAsync(false);
-
-                FloorArrived?.Invoke(this, next);
-                await Task.Delay(FloorTravelTimeMs);
-                CurrentFloor = next;
-
-                bool stopHere = (dir == 1 && _upRequests.Contains(CurrentFloor))
-                             || (dir == -1 && _downRequests.Contains(CurrentFloor));
-                if (stopHere)
+                while (true)
                 {
-                    if (dir == 1) _upRequests.Remove(CurrentFloor);
-                    else _downRequests.Remove(CurrentFloor);
+                    int next = CurrentFloor + dir;
+                    bool has = dir == 1
+                        ? _upRequests.Any(r => r >= next)
+                        : _downRequests.Any(r => r <= next);
+                    if (!has) break;
 
-                    await OperateDoorsAsync(true);
+                    if (DoorsOpen)
+                        await OperateDoorsAsync(false);
+
+                    FloorArrived?.Invoke(this, next);
+                    await Task.Delay(FloorTravelTimeMs);
+                    CurrentFloor = next;
+
+                    bool stopHere = (dir == 1 && _upRequests.Contains(CurrentFloor))
+                                 || (dir == -1 && _downRequests.Contains(CurrentFloor));
+                    if (stopHere)
+                    {
+                        if (dir == 1) _upRequests.Remove(CurrentFloor);
+                        else _downRequests.Remove(CurrentFloor);
+
+                        await OperateDoorsAsync(true);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error en movimiento paso a paso del elevador", ex);
+            }
         }
+
 
         /// <summary>
         /// Este metodo controla la apertura o cierre de las puertas del elevador de manera asincronica.
@@ -124,9 +146,16 @@ namespace ElevatorControl.Application.Services
         /// </param>
         private async Task OperateDoorsAsync(bool open)
         {
-            DoorsOpen = open;
-            DoorsStateChanged?.Invoke(this, open);
-            await Task.Delay(DoorOperationTimeMs);
+            try
+            {
+                DoorsOpen = open;
+                DoorsStateChanged?.Invoke(this, open);
+                await Task.Delay(DoorOperationTimeMs);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Error al operar puertas del elevador", ex);
+            }
         }
     }
 }

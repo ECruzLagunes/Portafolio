@@ -30,36 +30,64 @@ namespace ElevatorControl.UI
 
         private void CallButton_Click(object s, RoutedEventArgs e)
         {
-            if (s is Button b && int.TryParse(b.Tag.ToString(), out int f))
-                _controller.RequestFloor(f);
+            try
+            {
+                if (s is Button b && int.TryParse(b.Tag.ToString(), out int f))
+                    _controller.RequestFloor(f);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar llamada externa: " + ex.Message);
+            }
         }
 
         private void InternalButton_Click(object s, RoutedEventArgs e)
         {
-            if (s is Button b && int.TryParse(b.Tag.ToString(), out int f))
-                _controller.RequestFloor(f);
+            try
+            {
+                if (s is Button b && int.TryParse(b.Tag.ToString(), out int f))
+                    _controller.RequestFloor(f);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar llamada interna: " + ex.Message);
+            }
         }
 
         private void AnimateElevator(int floor)
         {
-            double y = (5 - floor) * 60;
-            var dur = TimeSpan.FromMilliseconds(Math.Abs(_viewModel.CurrentFloor - floor) * _controller.FloorTravelTimeMs);
-            var ani = new DoubleAnimation(y, dur);
-            ElevatorBox.BeginAnimation(Canvas.TopProperty, ani);
-            DoorLeft.BeginAnimation(Canvas.TopProperty, ani);
-            DoorRight.BeginAnimation(Canvas.TopProperty, ani);
-            _viewModel.CurrentFloor = floor;
-            UpdateStatusPanel();
+            try
+            {
+                double y = (5 - floor) * 60;
+                var dur = TimeSpan.FromMilliseconds(Math.Abs(_viewModel.CurrentFloor - floor) * _controller.FloorTravelTimeMs);
+                var ani = new DoubleAnimation(y, dur);
+                ElevatorBox.BeginAnimation(Canvas.TopProperty, ani);
+                DoorLeft.BeginAnimation(Canvas.TopProperty, ani);
+                DoorRight.BeginAnimation(Canvas.TopProperty, ani);
+                _viewModel.CurrentFloor = floor;
+                UpdateStatusPanel();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al animar elevador: " + ex.Message);
+            }
         }
 
         private void AnimateDoors(bool open)
         {
-            double leftX = open ? DoorLeftClosedX - DoorOffset : DoorLeftClosedX;
-            double rightX = open ? DoorRightClosedX + DoorOffset : DoorRightClosedX;
-            var dur = TimeSpan.FromMilliseconds(_controller.DoorOperationTimeMs);
-            DoorLeft.BeginAnimation(Canvas.LeftProperty, new DoubleAnimation(leftX, dur));
-            DoorRight.BeginAnimation(Canvas.LeftProperty, new DoubleAnimation(rightX, dur));
-            UpdateStatusPanel();
+            try
+            {
+                double leftX = open ? DoorLeftClosedX - DoorOffset : DoorLeftClosedX;
+                double rightX = open ? DoorRightClosedX + DoorOffset : DoorRightClosedX;
+                var dur = TimeSpan.FromMilliseconds(_controller.DoorOperationTimeMs);
+                DoorLeft.BeginAnimation(Canvas.LeftProperty, new DoubleAnimation(leftX, dur));
+                DoorRight.BeginAnimation(Canvas.LeftProperty, new DoubleAnimation(rightX, dur));
+                UpdateStatusPanel();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al animar puertas: " + ex.Message);
+            }
         }
 
         private void UpdateStatusPanel()

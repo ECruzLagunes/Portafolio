@@ -47,7 +47,7 @@
                 await Task.Delay(100);
 
                 // Orden esperado: 2->3->4->5
-                // Desde que empieza en 1, priemro arriva en 2 y va de camino a 3
+                // Desde que empieza en 1, priemro arriba en 2 y va de camino a 3
                 Assert.Contains(3, stops);
                 Assert.Contains(4, stops);
                 Assert.Contains(5, stops);
